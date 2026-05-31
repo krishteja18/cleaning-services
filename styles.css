@@ -70,6 +70,7 @@ html {
     scroll-behavior: smooth;
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden; /* Bulletproof horizontal scroll blocker at viewport root */
 }
 
 body {
@@ -2193,13 +2194,20 @@ button, input, select, textarea {
 
 /* Tablet Viewports (~1024px) */
 @media (max-width: 1024px) {
-    .container {
-        padding: 0 1.5rem;
+    /* Bulletproof extreme layout shield to isolate section borders and block overflows */
+    section {
+        width: 100% !important;
+        overflow: hidden !important;
     }
     
-    /* Hide absolute floating glass cards to prevent lateral overflow on small viewports */
+    .container {
+        padding: 0 1.25rem;
+    }
+    
+    /* Hide absolute floating glass cards and background frame borders to prevent lateral overflow on small viewports */
     .float-card-1,
-    .float-card-2 {
+    .float-card-2,
+    .hero-frame-bg {
         display: none !important;
     }
     
@@ -2274,7 +2282,30 @@ button, input, select, textarea {
     }
     
     .section-title {
-        font-size: 2.2rem;
+        font-size: 1.9rem; /* Clean responsive scaling */
+    }
+    
+    /* Stack Hero CTAs vertically to prevent squeezing blowout */
+    .hero-ctas {
+        flex-direction: column;
+        gap: 0.9rem;
+        width: 100%;
+        margin-bottom: 3rem;
+    }
+    
+    .hero-ctas .btn {
+        width: 100%;
+    }
+    
+    /* Stack Hero Stats vertically to prevent horizontal column blowout */
+    .hero-stats {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.25rem;
+    }
+    
+    .stat-divider {
+        display: none;
     }
     
     .services-tabs {
