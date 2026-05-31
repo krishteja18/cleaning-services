@@ -139,8 +139,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (percentage < 0) percentage = 0;
             if (percentage > 100) percentage = 100;
 
-            // Apply style updates
-            afterImage.style.width = `${percentage}%`;
+            // Apply style updates using modern clip-path to prevent image squishing/distortion
+            afterImage.style.clipPath = `polygon(0 0, ${percentage}% 0, ${percentage}% 100%, 0 100%)`;
             sliderHandle.style.left = `${percentage}%`;
         };
 
@@ -196,6 +196,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const summaryDiscount = document.getElementById('summary-discount');
     const calculatedPrice = document.getElementById('calculated-price');
     const pricingPeriod = document.getElementById('pricing-period');
+
+    // Sticky mobile price bar elements
+    const mobileStickyBar = document.getElementById('mobile-sticky-bar');
+    const stickyPriceVal = document.getElementById('sticky-price-val');
+    const stickyPlanName = document.getElementById('sticky-plan-name');
+    const stickyPeriodVal = document.getElementById('sticky-period-val');
+    const stickyBookBtn = document.getElementById('sticky-book-btn');
 
     let currentFreq = 'weekly'; // default frequency selection
 
@@ -335,6 +342,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         pricingPeriod.textContent = freqInfo.label;
+
+        // Synchronize values to Mobile/Tablet Sticky Bottom Bar
+        if (stickyPriceVal) {
+            stickyPriceVal.textContent = finalCost;
+            stickyPlanName.textContent = tier.name;
+            stickyPeriodVal.textContent = freqInfo.label.replace('/ visit', '').trim();
+        }
     }
 
     // Initialize Estimator
@@ -344,51 +358,83 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 6. COST ESTIMATOR SYNC WITH BOOKING WIZARD ---
     const calcBookBtn = document.getElementById('calc-book-btn');
+    
+    const syncEstimatorToWizard = () => {
+        // Gather values from Estimator
+        const estType = cleanTypeSelect.value;
+        const estBedrooms = bedroomsInput.value;
+        const estBathrooms = bathroomsInput.value;
+        const estSize = homeSizeInput.value;
+        
+        // Sync values to Wizard controls
+        document.getElementById('booking-type').value = estType;
+        document.getElementById('booking-frequency').value = currentFreq;
+        document.getElementById('booking-bedrooms').value = estBedrooms;
+        document.getElementById('booking-bathrooms').value = estBathrooms;
+        document.getElementById('booking-size').value = estSize;
+        
+        // Sync selected addon checkboxes
+        const wizardAddons = document.querySelectorAll('.wizard-addon-checkbox');
+        wizardAddons.forEach(wCheckbox => {
+            const valueName = wCheckbox.value;
+            const calcCheckbox = Array.from(addonCheckboxes).find(cb => cb.value === valueName);
+            if (calcCheckbox) {
+                wCheckbox.checked = calcCheckbox.checked;
+                // Trigger styles classes of containing cards
+                const parentCard = wCheckbox.closest('.addon-card');
+                if (parentCard) {
+                    if (wCheckbox.checked) {
+                        parentCard.style.borderColor = 'var(--color-primary)';
+                        parentCard.style.backgroundColor = 'var(--color-primary-glow)';
+                    } else {
+                        parentCard.style.borderColor = 'var(--neutral-border)';
+                        parentCard.style.backgroundColor = 'var(--white)';
+                    }
+                }
+            }
+        });
+
+        // Smooth scroll to the Booking Wizard section
+        document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+        
+        // Highlight step indicator
+        showNotification('Clean Synced!', 'Estimator pricing and specifications have been transferred to your booking details below.', 'success');
+    };
+
     if (calcBookBtn) {
         calcBookBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            
-            // Gather values from Estimator
-            const estType = cleanTypeSelect.value;
-            const estBedrooms = bedroomsInput.value;
-            const estBathrooms = bathroomsInput.value;
-            const estSize = homeSizeInput.value;
-            
-            // Sync values to Wizard controls
-            document.getElementById('booking-type').value = estType;
-            document.getElementById('booking-frequency').value = currentFreq;
-            document.getElementById('booking-bedrooms').value = estBedrooms;
-            document.getElementById('booking-bathrooms').value = estBathrooms;
-            document.getElementById('booking-size').value = estSize;
-            
-            // Sync selected addon checkboxes
-            const wizardAddons = document.querySelectorAll('.wizard-addon-checkbox');
-            wizardAddons.forEach(wCheckbox => {
-                const valueName = wCheckbox.value;
-                const calcCheckbox = Array.from(addonCheckboxes).find(cb => cb.value === valueName);
-                if (calcCheckbox) {
-                    wCheckbox.checked = calcCheckbox.checked;
-                    // Trigger styles classes of containing cards
-                    const parentCard = wCheckbox.closest('.addon-card');
-                    if (parentCard) {
-                        if (wCheckbox.checked) {
-                            parentCard.style.borderColor = 'var(--color-primary)';
-                            parentCard.style.backgroundColor = 'var(--color-primary-glow)';
-                        } else {
-                            parentCard.style.borderColor = 'var(--neutral-border)';
-                            parentCard.style.backgroundColor = 'var(--white)';
-                        }
-                    }
-                }
-            });
-
-            // Smooth scroll to the Booking Wizard section
-            document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
-            
-            // Highlight step indicator
-            showNotification('Clean Synced!', 'Estimator pricing and specifications have been transferred to your booking details below.', 'success');
+            syncEstimatorToWizard();
         });
     }
+
+    if (stickyBookBtn) {
+        stickyBookBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            syncEstimatorToWizard();
+        });
+    }
+
+    // Scroll trigger to show/hide Mobile Sticky Bottom Bar when passing Estimator section
+    window.addEventListener('scroll', () => {
+        if (!mobileStickyBar) return;
+        
+        const estimatorSection = document.getElementById('estimator');
+        if (estimatorSection && window.innerWidth < 1024) {
+            const rect = estimatorSection.getBoundingClientRect();
+            const bookingSection = document.getElementById('booking');
+            const bookingRect = bookingSection ? bookingSection.getBoundingClientRect() : null;
+
+            // Show sticky bar once Estimator enters viewport, hide when Booking section is fully visible
+            if (rect.top <= window.innerHeight - 150 && (!bookingRect || bookingRect.top > window.innerHeight - 100)) {
+                mobileStickyBar.classList.add('show');
+            } else {
+                mobileStickyBar.classList.remove('show');
+            }
+        } else {
+            mobileStickyBar.classList.remove('show');
+        }
+    });
 
     // Styling handler for wizard addons checkboxes
     const wizardAddons = document.querySelectorAll('.wizard-addon-checkbox');
