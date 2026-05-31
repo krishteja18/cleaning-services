@@ -450,6 +450,7 @@ button, input, select, textarea {
 }
 
 .mobile-menu.open {
+    display: block; /* Fix: Show menu container when open */
     transform: translateY(0);
     opacity: 1;
 }
@@ -2196,6 +2197,12 @@ button, input, select, textarea {
         padding: 0 1.5rem;
     }
     
+    /* Hide absolute floating glass cards to prevent lateral overflow on small viewports */
+    .float-card-1,
+    .float-card-2 {
+        display: none !important;
+    }
+    
     /* Navigation Hamburger Menu Trigger earlier for tablet responsiveness */
     .mobile-nav-toggle {
         display: flex;
@@ -2316,7 +2323,11 @@ button, input, select, textarea {
     }
     
     .progress-step .step-label {
-        font-size: 0.7rem;
+        font-size: 0.65rem;
+        white-space: normal; /* Fix: Wrap text instead of nowrap overflow */
+        text-align: center;
+        width: 75px;
+        line-height: 1.2;
     }
     
     .progress-step .step-num {
@@ -2363,7 +2374,11 @@ button, input, select, textarea {
 /* Small Smart Phones (~480px) */
 @media (max-width: 480px) {
     .hero-title {
-        font-size: 2.6rem;
+        font-size: 1.95rem; /* Smoother typography fit */
+    }
+    
+    .section-title {
+        font-size: 1.7rem; /* Smoother typography fit */
     }
     
     .hero-ctas {
@@ -2387,5 +2402,34 @@ button, input, select, textarea {
     
     .before-after-container {
         height: 280px;
+    }
+    
+    /* Fix: Stack newsletter side-by-side flexbox to prevent lateral overflow */
+    .input-with-btn {
+        flex-direction: column;
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        gap: 0.75rem;
+    }
+    
+    .newsletter-input {
+        background-color: var(--white);
+        border: 2px solid var(--neutral-border);
+        border-radius: 12px;
+        padding: 0.9rem 1.25rem;
+        width: 100%;
+        box-shadow: var(--shadow-sm);
+    }
+    
+    .newsletter-input:focus {
+        border-color: var(--color-primary);
+    }
+    
+    .btn-news {
+        width: 100%;
+        padding: 0.9rem;
+        box-shadow: 0 4px 10px var(--color-primary-glow);
     }
 }
