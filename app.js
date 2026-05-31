@@ -698,12 +698,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (type === 'success') {
             toastIconBox.className = 'toast-icon';
             toastIconBox.innerHTML = '<i class="fa-solid fa-sparkles"></i>';
-            toastIconBox.style.backgroundColor = '#ecfdf5';
-            toastIconBox.style.color = '#10b981';
+            toastIconBox.style.backgroundColor = 'var(--color-secondary-light)';
+            toastIconBox.style.color = 'var(--color-secondary)';
         } else {
             toastIconBox.className = 'toast-icon error';
             toastIconBox.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
-            toastIconBox.style.backgroundColor = '#fef2f2';
+            toastIconBox.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
             toastIconBox.style.color = '#ef4444';
         }
 

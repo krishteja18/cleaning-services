@@ -4,34 +4,41 @@
 
 /* 1. CSS VARIABLES & SYSTEM TOKENS */
 :root {
-    /* Color Palette - Luxurious Teal, Mint & Gold */
-    --color-primary-h: 172;
-    --color-primary-s: 71%;
-    --color-primary-l: 16%; /* #0B4A43 Deep Teal */
+    /* Color Palette - Midnight Slate Navy, Vibrant Royal Blue, Vibrant Warm Gold & Electric Sky Blue */
+    --color-primary-h: 227;
+    --color-primary-s: 50%;
+    --color-primary-l: 21%; /* #1B2751 Midnight Slate Navy */
     --color-primary: hsl(var(--color-primary-h), var(--color-primary-s), var(--color-primary-l));
     --color-primary-light: hsl(var(--color-primary-h), var(--color-primary-s), 28%);
-    --color-primary-glow: hsla(var(--color-primary-h), var(--color-primary-s), var(--color-primary-l), 0.15);
+    --color-primary-glow: hsla(var(--color-primary-h), var(--color-primary-s), var(--color-primary-l), 0.20);
     
-    --color-secondary-h: 166;
-    --color-secondary-s: 49%;
-    --color-secondary-l: 52%; /* #48C0A4 Fresh Mint */
+    --color-secondary-h: 227;
+    --color-secondary-s: 100%;
+    --color-secondary-l: 66%; /* #5478FF Vibrant Royal Blue */
     --color-secondary: hsl(var(--color-secondary-h), var(--color-secondary-s), var(--color-secondary-l));
-    --color-secondary-light: hsl(var(--color-secondary-h), var(--color-secondary-s), 90%);
+    --color-secondary-light: hsl(var(--color-secondary-h), var(--color-secondary-s), 93%);
     
-    --color-accent-h: 46;
-    --color-accent-s: 65%;
-    --color-accent-l: 52%; /* #D4AF37 Champagne Gold */
+    --color-accent-h: 50;
+    --color-accent-s: 100%;
+    --color-accent-l: 63%; /* #FFDE42 Vibrant Warm Gold */
     --color-accent: hsl(var(--color-accent-h), var(--color-accent-s), var(--color-accent-l));
     --color-accent-glow: hsla(var(--color-accent-h), var(--color-accent-s), var(--color-accent-l), 0.25);
+
+    /* Tertiary Accent - Electric Sky Blue for ambient gradients & glows */
+    --color-tertiary-h: 195;
+    --color-tertiary-s: 88%;
+    --color-tertiary-l: 64%; /* #53CBF3 Electric Sky Blue */
+    --color-tertiary: hsl(var(--color-tertiary-h), var(--color-tertiary-s), var(--color-tertiary-l));
+    --color-tertiary-glow: hsla(var(--color-tertiary-h), var(--color-tertiary-s), var(--color-tertiary-l), 0.25);
     
     /* Neutrals - High contrast slate & pristine warm whites */
-    --neutral-dark: #0f172a;       /* Slate 900 */
-    --neutral-body: #334155;       /* Slate 700 */
-    --neutral-muted: #64748b;      /* Slate 500 */
-    --neutral-light: #f8fafc;      /* Alabaster/Slate 50 */
-    --neutral-border: #e2e8f0;     /* Slate 200 */
+    --neutral-dark: #1b2751;       /* Midnight Slate Navy primary text/headings */
+    --neutral-body: #334155;       /* Slate 700 secondary text */
+    --neutral-muted: #64748b;      /* Slate 500 subtext */
+    --neutral-light: #f5f7fa;      /* Soft Slate-White alternate backgrounds */
+    --neutral-border: #e2e8f0;     /* Slate 200 borders */
     --neutral-border-light: rgba(226, 232, 240, 0.5);
-    --white: #ffffff;
+    --white: #ffffff;             /* Pure White page background */
     
     /* Glassmorphism Presets */
     --glass-bg: rgba(255, 255, 255, 0.7);
@@ -47,11 +54,11 @@
     --container-width: 1280px;
     --header-height: 80px;
     
-    /* Dynamic Shadows */
-    --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.04);
-    --shadow-md: 0 10px 30px rgba(12, 74, 67, 0.05), 0 1px 3px rgba(12, 74, 67, 0.02);
-    --shadow-lg: 0 20px 40px rgba(12, 74, 67, 0.08), 0 1px 10px rgba(12, 74, 67, 0.03);
-    --shadow-glow: 0 0 25px rgba(45, 212, 191, 0.25);
+    /* Dynamic Shadows - Mapped to Brand Navy & Royal Blue */
+    --shadow-sm: 0 2px 8px rgba(27, 39, 81, 0.04);
+    --shadow-md: 0 10px 30px rgba(27, 39, 81, 0.06), 0 1px 3px rgba(27, 39, 81, 0.02);
+    --shadow-lg: 0 20px 40px rgba(27, 39, 81, 0.10), 0 1px 10px rgba(27, 39, 81, 0.04);
+    --shadow-glow: 0 0 25px rgba(84, 120, 255, 0.22);
     
     /* Transitions */
     --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -131,7 +138,7 @@ button, input, select, textarea {
 }
 
 .text-center { text-align: center; }
-.text-green { color: #10b981; }
+.text-green { color: var(--color-accent); } /* Mapped to Brand Gold for premium contrast */
 
 .section-header {
     max-width: 700px;
@@ -207,9 +214,9 @@ button, input, select, textarea {
 }
 
 .btn-primary {
-    background-color: var(--color-primary);
-    color: var(--white);
-    box-shadow: 0 4px 14px var(--color-primary-glow);
+    background-color: var(--color-accent); /* Vibrant Warm Gold #FFDE42 */
+    color: var(--color-primary); /* Midnight Slate Navy #1b2751 text */
+    box-shadow: 0 4px 14px var(--color-accent-glow);
 }
 
 .btn-primary::before {
@@ -219,14 +226,14 @@ button, input, select, textarea {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
     transition: 0.5s;
 }
 
 .btn-primary:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 22px rgba(12, 74, 67, 0.25);
-    background-color: var(--color-primary-light);
+    box-shadow: 0 8px 22px rgba(27, 39, 81, 0.25);
+    background-color: hsl(var(--color-accent-h), var(--color-accent-s), 55%); /* Darken slightly on hover */
 }
 
 .btn-primary:hover::before {
@@ -256,16 +263,16 @@ button, input, select, textarea {
     padding: 0.65rem 1.4rem;
     font-size: 0.9rem;
     font-weight: 600;
-    background-color: var(--color-primary);
-    color: var(--white);
+    background-color: var(--color-accent); /* Vibrant Warm Gold #FFDE42 */
+    color: var(--color-primary); /* Midnight Slate Navy #1b2751 text */
     border-radius: 99px;
-    box-shadow: 0 4px 10px rgba(12, 74, 67, 0.1);
+    box-shadow: 0 4px 10px var(--color-accent-glow);
 }
 
 .btn-nav:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(12, 74, 67, 0.18);
-    background-color: var(--color-primary-light);
+    box-shadow: 0 6px 14px rgba(27, 39, 81, 0.20);
+    background-color: hsl(var(--color-accent-h), var(--color-accent-s), 55%); /* Darken slightly on hover */
 }
 
 /* Premium Badge Element */
@@ -351,7 +358,7 @@ button, input, select, textarea {
     align-items: center;
     justify-content: center;
     font-size: 1.1rem;
-    box-shadow: 0 4px 10px rgba(45, 212, 191, 0.3);
+    box-shadow: 0 4px 10px rgba(84, 120, 255, 0.25);
 }
 
 .logo-text {
@@ -896,7 +903,7 @@ button, input, select, textarea {
     height: 48px;
     background-color: var(--white);
     border-radius: 50%;
-    box-shadow: 0 4px 15px rgba(12, 74, 67, 0.3);
+    box-shadow: 0 4px 15px rgba(27, 39, 81, 0.2);
     color: var(--color-primary);
     display: flex;
     align-items: center;
@@ -1108,7 +1115,7 @@ button, input, select, textarea {
     border-radius: 50%;
     background: var(--white);
     border: 4px solid var(--color-primary);
-    box-shadow: 0 2px 8px rgba(12, 74, 67, 0.3);
+    box-shadow: 0 2px 8px rgba(27, 39, 81, 0.25);
     cursor: pointer;
     margin-top: -7px;
     transition: transform var(--transition-fast);
@@ -1116,7 +1123,7 @@ button, input, select, textarea {
 
 .premium-range::-webkit-slider-thumb:hover {
     transform: scale(1.25);
-    box-shadow: 0 3px 12px rgba(12, 74, 67, 0.4);
+    box-shadow: 0 3px 12px rgba(27, 39, 81, 0.35);
 }
 
 .range-track-bg {
@@ -1169,10 +1176,10 @@ button, input, select, textarea {
 
 .disc-pill {
     font-size: 0.7rem;
-    font-weight: 700;
-    color: #10b981;
-    background-color: #ecfdf5;
-    padding: 0.1rem 0.4rem;
+    font-weight: 800;
+    color: var(--color-primary);
+    background-color: var(--color-accent);
+    padding: 0.15rem 0.5rem;
     border-radius: 99px;
 }
 
@@ -1274,9 +1281,10 @@ button, input, select, textarea {
 }
 
 .result-card-inner {
-    background-color: var(--white);
+    background-color: var(--color-primary); /* Midnight Slate Navy #1b2751 */
+    color: var(--white);
     border-radius: 24px;
-    border: 1px solid var(--neutral-border);
+    border: 1px solid var(--color-primary-light);
     box-shadow: var(--shadow-lg);
     padding: 3rem;
     position: relative;
@@ -1289,13 +1297,14 @@ button, input, select, textarea {
     left: 0;
     right: 0;
     height: 6px;
-    background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-tertiary) 100%); /* Gold & Sky Blue gradient */
 }
 
 .result-title {
     font-size: 1.6rem;
     font-weight: 700;
     margin-bottom: 2rem;
+    color: var(--white);
 }
 
 .result-details {
@@ -1312,17 +1321,17 @@ button, input, select, textarea {
 }
 
 .detail-name {
-    color: var(--neutral-muted);
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .detail-val {
     font-weight: 600;
-    color: var(--neutral-dark);
+    color: var(--white);
 }
 
 .price-separator {
     height: 1px;
-    background-color: var(--neutral-border);
+    background-color: rgba(255, 255, 255, 0.15);
     margin-bottom: 2rem;
 }
 
@@ -1337,7 +1346,7 @@ button, input, select, textarea {
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: var(--neutral-muted);
+    color: rgba(255, 255, 255, 0.65);
     font-weight: 600;
     margin-bottom: 0.5rem;
 }
@@ -1346,7 +1355,7 @@ button, input, select, textarea {
     display: inline-flex;
     align-items: baseline;
     justify-content: center;
-    color: var(--color-primary);
+    color: var(--color-accent); /* Vibrant Warm Gold #FFDE42 */
 }
 
 .price-display .currency {
@@ -1367,13 +1376,13 @@ button, input, select, textarea {
 .price-display .price-type {
     font-size: 1.1rem;
     font-weight: 500;
-    color: var(--neutral-muted);
+    color: rgba(255, 255, 255, 0.75);
     margin-left: 0.4rem;
 }
 
 .price-guarantee {
     font-size: 0.8rem;
-    color: var(--neutral-muted);
+    color: rgba(255, 255, 255, 0.7);
     margin-top: 0.75rem;
     display: flex;
     align-items: center;
@@ -1382,7 +1391,7 @@ button, input, select, textarea {
 }
 
 .price-guarantee i {
-    color: var(--color-secondary);
+    color: var(--color-accent);
 }
 
 .result-cta-group {
@@ -1393,7 +1402,7 @@ button, input, select, textarea {
 
 .result-note {
     font-size: 0.75rem;
-    color: var(--neutral-muted);
+    color: rgba(255, 255, 255, 0.6);
     text-align: center;
 }
 
@@ -1696,7 +1705,7 @@ button, input, select, textarea {
     font-family: var(--font-heading);
     font-size: 8rem;
     line-height: 1;
-    color: rgba(12, 74, 67, 0.04);
+    color: rgba(27, 39, 81, 0.04);
     font-weight: 800;
     user-select: none;
 }
@@ -1778,8 +1787,8 @@ button, input, select, textarea {
 .newsletter-box {
     max-width: 900px;
     margin: 0 auto;
-    background-color: var(--neutral-light);
-    border: 1px solid var(--neutral-border);
+    background-color: var(--color-primary); /* Midnight Slate Navy #1b2751 */
+    border: 1px solid var(--color-primary-light);
     border-radius: 28px;
     padding: 4.5rem;
     position: relative;
@@ -1791,11 +1800,11 @@ button, input, select, textarea {
     position: absolute;
     top: -50px;
     right: -50px;
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
-    background: radial-gradient(circle, var(--color-secondary-light) 0%, rgba(255,255,255,0) 70%);
-    opacity: 0.6;
+    background: radial-gradient(circle, rgba(83, 203, 243, 0.35) 0%, rgba(84, 120, 255, 0) 75%);
+    opacity: 0.8;
 }
 
 .newsletter-mini {
@@ -1804,7 +1813,7 @@ button, input, select, textarea {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--color-secondary);
+    color: var(--color-accent); /* Vibrant Warm Gold #FFDE42 */
     margin-bottom: 0.75rem;
 }
 
@@ -1813,11 +1822,12 @@ button, input, select, textarea {
     font-weight: 800;
     letter-spacing: -0.02em;
     margin-bottom: 1rem;
+    color: var(--white);
 }
 
 .newsletter-subtitle {
     font-size: 1.05rem;
-    color: var(--neutral-muted);
+    color: rgba(255, 255, 255, 0.8);
     max-width: 600px;
     margin: 0 auto 2.5rem auto;
 }
@@ -2235,7 +2245,6 @@ button, input, select, textarea {
     }
     
     .hero-image-wrapper {
-        order: -1;
         max-width: 580px;
         margin: 0 auto;
     }
@@ -2251,6 +2260,11 @@ button, input, select, textarea {
     
     .panel-image {
         height: 320px;
+        order: 2; /* Move image below text on mobile/tablet */
+    }
+
+    .panel-info {
+        order: 1; /* Move text details on top of image on mobile/tablet */
     }
     
     .estimator-grid {
@@ -2353,6 +2367,11 @@ button, input, select, textarea {
         grid-column: span 1;
     }
     
+    .progress-step {
+        width: auto !important; /* Force override fixed 100px width on mobile devices */
+        flex: 1; /* Allow steps to distribute and scale dynamically */
+    }
+
     .progress-step .step-label {
         font-size: 0.65rem;
         white-space: normal; /* Fix: Wrap text instead of nowrap overflow */
